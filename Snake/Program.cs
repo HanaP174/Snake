@@ -19,7 +19,7 @@ namespace Snake
             pixel.xpos = screenwidth/2;
             pixel.ypos = screenheight/2;
             pixel.schermkleur = ConsoleColor.Red;
-            string movement = "RIGHT";
+            MoveDirection movement = MoveDirection.Right;
             List<int> xposlijf = new List<int>();
             List<int> yposlijf = new List<int>();
             int berryx = randomnummer.Next(0, screenwidth);
@@ -90,24 +90,24 @@ namespace Snake
                     {
                         ConsoleKeyInfo toets = ReadKey(true);
                         //WriteLine(toets.Key.ToString());
-                        if (toets.Key.Equals(ConsoleKey.UpArrow) && movement != "DOWN" && buttonpressed == "no")
+                        if (toets.Key.Equals(ConsoleKey.UpArrow) && movement != MoveDirection.Down && buttonpressed == "no")
                         {
-                            movement = "UP";
+                            movement = MoveDirection.Up;
                             buttonpressed = "yes";
                         }
-                        if (toets.Key.Equals(ConsoleKey.DownArrow) && movement != "UP" && buttonpressed == "no")
+                        if (toets.Key.Equals(ConsoleKey.DownArrow) && movement != MoveDirection.Up && buttonpressed == "no")
                         {
-                            movement = "DOWN";
+                            movement = MoveDirection.Down;
                             buttonpressed = "yes";
                         }
-                        if (toets.Key.Equals(ConsoleKey.LeftArrow) && movement != "RIGHT" && buttonpressed == "no")
+                        if (toets.Key.Equals(ConsoleKey.LeftArrow) && movement != MoveDirection.Right && buttonpressed == "no")
                         {
-                            movement = "LEFT";
+                            movement = MoveDirection.Left;
                             buttonpressed = "yes";
                         }
-                        if (toets.Key.Equals(ConsoleKey.RightArrow) && movement != "LEFT" && buttonpressed == "no")
+                        if (toets.Key.Equals(ConsoleKey.RightArrow) && movement != MoveDirection.Left && buttonpressed == "no")
                         {
-                            movement = "RIGHT";
+                            movement = MoveDirection.Right;
                             buttonpressed = "yes";
                         }
                     }
@@ -116,16 +116,16 @@ namespace Snake
                 yposlijf.Add(pixel.ypos);
                 switch (movement)
                 {
-                    case "UP":
+                    case MoveDirection.Up:
                         pixel.ypos--;
                         break;
-                    case "DOWN":
+                    case MoveDirection.Down:
                         pixel.ypos++;
                         break;
-                    case "LEFT":
+                    case MoveDirection.Left:
                         pixel.xpos--;
                         break;
-                    case "RIGHT":
+                    case MoveDirection.Right:
                         pixel.xpos++;
                         break;
                 }
