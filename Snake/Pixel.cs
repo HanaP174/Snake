@@ -2,7 +2,14 @@
 
 public class Pixel
 {
-    public int xpos { get; set; }
-    public int ypos { get; set; }
-    public ConsoleColor schermkleur { get; set; }
+    public Pixel(int positionX, int positionY, ConsoleColor screenColor)
+    {
+        PositionX = positionX;
+        PositionY = positionY;
+        ScreenColor = screenColor;
+    }
+
+    public int PositionX { get; set; }
+    public int PositionY { get; set; }
+    public ConsoleColor ScreenColor { get; set; }
 }

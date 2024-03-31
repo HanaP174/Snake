@@ -15,10 +15,7 @@ namespace Snake
             Random randomnummer = new Random();
             int score = 5;
             int gameover = 0;
-            Pixel pixel = new Pixel();
-            pixel.xpos = screenwidth/2;
-            pixel.ypos = screenheight/2;
-            pixel.schermkleur = ConsoleColor.Red;
+            Pixel pixel = new Pixel(screenwidth/2, screenheight/2, ConsoleColor.Red);
             MoveDirection movement = MoveDirection.Right;
             List<int> xposlijf = new List<int>();
             List<int> yposlijf = new List<int>();
@@ -30,7 +27,7 @@ namespace Snake
             while (true)
             {
                 Clear();
-                if (pixel.xpos == screenwidth-1 || pixel.xpos == 0 ||pixel.ypos == screenheight-1 || pixel.ypos == 0)
+                if (pixel.PositionX == screenwidth-1 || pixel.PositionX == 0 ||pixel.PositionY == screenheight-1 || pixel.PositionY == 0)
                 { 
                     gameover = 1;
                 }
@@ -55,7 +52,7 @@ namespace Snake
                     Write("■");
                 }
                 ForegroundColor = ConsoleColor.Green;
-                if (berryx == pixel.xpos && berryy == pixel.ypos)
+                if (berryx == pixel.PositionX && berryy == pixel.PositionY)
                 {
                     score++;
                     berryx = randomnummer.Next(1, screenwidth-2);
@@ -65,7 +62,7 @@ namespace Snake
                 {
                     SetCursorPosition(xposlijf[i], yposlijf[i]);
                     Write("■");
-                    if (xposlijf[i] == pixel.xpos && yposlijf[i] == pixel.ypos)
+                    if (xposlijf[i] == pixel.PositionX && yposlijf[i] == pixel.PositionY)
                     {
                         gameover = 1;
                     }
@@ -74,8 +71,8 @@ namespace Snake
                 {
                     break;
                 }
-                SetCursorPosition(pixel.xpos, pixel.ypos);
-                ForegroundColor = pixel.schermkleur;
+                SetCursorPosition(pixel.PositionX, pixel.PositionY);
+                ForegroundColor = pixel.ScreenColor;
                 Write("■");
                 SetCursorPosition(berryx, berryy);
                 ForegroundColor = ConsoleColor.Cyan;
@@ -112,21 +109,21 @@ namespace Snake
                         }
                     }
                 }
-                xposlijf.Add(pixel.xpos);
-                yposlijf.Add(pixel.ypos);
+                xposlijf.Add(pixel.PositionX);
+                yposlijf.Add(pixel.PositionY);
                 switch (movement)
                 {
                     case MoveDirection.Up:
-                        pixel.ypos--;
+                        pixel.PositionY--;
                         break;
                     case MoveDirection.Down:
-                        pixel.ypos++;
+                        pixel.PositionY++;
                         break;
                     case MoveDirection.Left:
-                        pixel.xpos--;
+                        pixel.PositionX--;
                         break;
                     case MoveDirection.Right:
-                        pixel.xpos++;
+                        pixel.PositionX++;
                         break;
                 }
                 if (xposlijf.Count() > score)
