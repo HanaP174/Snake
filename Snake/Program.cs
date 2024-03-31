@@ -14,22 +14,27 @@ namespace Snake
             
             Random randomnummer = new Random();
             int score = 5;
-            int gameover = 0;
-            Pixel pixel = new Pixel(screenwidth/2, screenheight/2, ConsoleColor.Red);
+            bool gameover = false;
+            
+            // snake
+            Pixel head = new Pixel(screenwidth/2, screenheight/2, ConsoleColor.Red);
+            List<Pixel> body = new List<Pixel>();
+
             MoveDirection movement = MoveDirection.Right;
-            List<int> xposlijf = new List<int>();
-            List<int> yposlijf = new List<int>();
-            int berryx = randomnummer.Next(0, screenwidth);
-            int berryy = randomnummer.Next(0, screenheight);
+            // treat
+            Pixel treat = new Pixel(randomnummer.Next(0, screenwidth), randomnummer.Next(0, screenheight),
+                ConsoleColor.Cyan);
+            
             DateTime tijd = DateTime.Now;
             DateTime tijd2 = DateTime.Now;
+            
             bool buttonpressed = false;
             while (true)
             {
                 Clear();
-                if (pixel.PositionX == screenwidth-1 || pixel.PositionX == 0 ||pixel.PositionY == screenheight-1 || pixel.PositionY == 0)
+                if (head.PositionX == screenwidth-1 || head.PositionX == 0 || head.PositionY == screenheight-1 || head.PositionY == 0)
                 { 
-                    gameover = 1;
+                    gameover = true;
                 }
                 for (int i = 0;i< screenwidth; i++)
                 {
@@ -52,31 +57,29 @@ namespace Snake
                     Write("■");
                 }
                 ForegroundColor = ConsoleColor.Green;
-                if (berryx == pixel.PositionX && berryy == pixel.PositionY)
+                if (treat.PositionX == head.PositionX && treat.PositionY == head.PositionY)
                 {
                     score++;
-                    berryx = randomnummer.Next(1, screenwidth-2);
-                    berryy = randomnummer.Next(1, screenheight-2);
+                    treat.PositionX = randomnummer.Next(1, screenwidth-2);
+                    treat.PositionY = randomnummer.Next(1, screenheight-2);
                 } 
-                for (int i = 0; i < xposlijf.Count(); i++)
+                for (int i = 0; i < body.Count(); i++)
                 {
-                    SetCursorPosition(xposlijf[i], yposlijf[i]);
-                    Write("■");
-                    if (xposlijf[i] == pixel.PositionX && yposlijf[i] == pixel.PositionY)
+                    Pixel.Draw(body[i]);
+                    
+                    if (body[i].PositionX == head.PositionX && body[i].PositionY == head.PositionY)
                     {
-                        gameover = 1;
+                        gameover = true;
                     }
                 }
-                if (gameover == 1)
+                if (gameover)
                 {
                     break;
                 }
-                SetCursorPosition(pixel.PositionX, pixel.PositionY);
-                ForegroundColor = pixel.ScreenColor;
-                Write("■");
-                SetCursorPosition(berryx, berryy);
-                ForegroundColor = ConsoleColor.Cyan;
-                Write("■");
+                
+                Pixel.Draw(head);
+                Pixel.Draw(treat);
+                
                 tijd = DateTime.Now;
                 buttonpressed = false;
                 while (true)
@@ -109,27 +112,25 @@ namespace Snake
                         }
                     }
                 }
-                xposlijf.Add(pixel.PositionX);
-                yposlijf.Add(pixel.PositionY);
+                body.Add(new Pixel (head.PositionX, head.PositionY, ConsoleColor.Green));
                 switch (movement)
                 {
                     case MoveDirection.Up:
-                        pixel.PositionY--;
+                        head.PositionY--;
                         break;
                     case MoveDirection.Down:
-                        pixel.PositionY++;
+                        head.PositionY++;
                         break;
                     case MoveDirection.Left:
-                        pixel.PositionX--;
+                        head.PositionX--;
                         break;
                     case MoveDirection.Right:
-                        pixel.PositionX++;
+                        head.PositionX++;
                         break;
                 }
-                if (xposlijf.Count() > score)
+                if (body.Count() > score)
                 {
-                    xposlijf.RemoveAt(0);
-                    yposlijf.RemoveAt(0);
+                    body.RemoveAt(0);
                 }
             }
             SetCursorPosition(screenwidth / 5, screenheight / 2);
