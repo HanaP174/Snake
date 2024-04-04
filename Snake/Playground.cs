@@ -104,10 +104,10 @@ public class Playground
 
     private void DrawGameObjects()
     {
-        for (int i = 0; i < _snake.Body.Count(); i++)
+        foreach (var bodyPart in _snake.Body)
         {
-            Pixel.Draw(_snake.Body[i]);
-            _gameOver = _snake.Body[i].PositionX == _snake.Head.PositionX && _snake.Body[i].PositionY == _snake.Head.PositionY;
+            Pixel.Draw(bodyPart);
+            _gameOver = bodyPart.PositionX == _snake.Head.PositionX && bodyPart.PositionY == _snake.Head.PositionY;
         }
             
         Pixel.Draw(_snake.Head);
@@ -130,26 +130,24 @@ public class Playground
 
     private void SetMovement()
     {
-        if (KeyAvailable)
+        if (!KeyAvailable) return;
+        
+        var consoleKeyInfo = ReadKey(true);
+        switch (consoleKeyInfo.Key)
         {
-            var consoleKeyInfo = ReadKey(true);
-            if (consoleKeyInfo.Key.Equals(ConsoleKey.UpArrow) && _movement != MoveDirection.Down && _buttonPressed == false)
-            {
+            case ConsoleKey.UpArrow when _movement != MoveDirection.Down && _buttonPressed == false:
                 _movement = MoveDirection.Up;
                 _buttonPressed = true;
-            }
-            if (consoleKeyInfo.Key.Equals(ConsoleKey.DownArrow) && _movement != MoveDirection.Up && _buttonPressed == false)
-            {
+                break;
+            case ConsoleKey.DownArrow when _movement != MoveDirection.Up && _buttonPressed == false:
                 _movement = MoveDirection.Down;
                 _buttonPressed = true;
-            }
-            if (consoleKeyInfo.Key.Equals(ConsoleKey.LeftArrow) && _movement != MoveDirection.Right && _buttonPressed == false)
-            {
+                break;
+            case ConsoleKey.LeftArrow when _movement != MoveDirection.Right && _buttonPressed == false:
                 _movement = MoveDirection.Left;
                 _buttonPressed = true;
-            }
-            if (consoleKeyInfo.Key.Equals(ConsoleKey.RightArrow) && _movement != MoveDirection.Left && _buttonPressed == false)
-            {
+                break;
+            case ConsoleKey.RightArrow when _movement != MoveDirection.Left && _buttonPressed == false:
                 _movement = MoveDirection.Right;
                 _buttonPressed = true;
                 break;
