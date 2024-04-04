@@ -58,7 +58,7 @@ public class Playground
 
             DrawGameObjects();
             HandleMovement();
-            UpdateSnakeBody();
+            _snake.UpdateSnakeBodyByScore(_score);
         }
     }
     
@@ -123,10 +123,9 @@ public class Playground
         {
             SetMovement();
         }
-            
-        _snake.Body.Add(new Pixel (_snake.Head.PositionX, _snake.Head.PositionY, ConsoleColor.Green));
-            
-        MoveSnake();
+
+        _snake.IncreaseBodySizeByHead();
+        _snake.MoveSnake(_movement);
     }
 
     private void SetMovement()
@@ -153,34 +152,7 @@ public class Playground
             {
                 _movement = MoveDirection.Right;
                 _buttonPressed = true;
-            }
-        }
-    }
-
-    private void MoveSnake()
-    {
-        switch (_movement)
-        {
-            case MoveDirection.Up:
-                _snake.Head.PositionY--;
                 break;
-            case MoveDirection.Down:
-                _snake.Head.PositionY++;
-                break;
-            case MoveDirection.Left:
-                _snake.Head.PositionX--;
-                break;
-            case MoveDirection.Right:
-                _snake.Head.PositionX++;
-                break;
-        }
-    }
-
-    private void UpdateSnakeBody()
-    {
-        if (_snake.Body.Count() > _score)
-        {
-            _snake.Body.RemoveAt(0);
         }
     }
 
