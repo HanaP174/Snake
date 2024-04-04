@@ -17,10 +17,10 @@ public class Playground
     private int _score;
     private bool _gameOver;
     private MoveDirection _movement = MoveDirection.Right;
-    private Random _random;
+    private Random _random = null!;
 
-    private Snake _snake;
-    private Pixel _treat;
+    private Snake _snake = null!;
+    private Pixel _treat = null!;
 
     private bool _buttonPressed;
     
